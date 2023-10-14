@@ -41,7 +41,7 @@ GROUP BY Product;
 #How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
 SELECT COUNT(distinct customers.acctnum) AS customer_count, AVG(Feb.Quantity * Feb.price) AS avg_spent
 FROM BIT_DB.FebSales Feb
-LEFT JOIN BIT_DB.customers customers
+LEFT JOIN BIT_DB.customers
 ON Feb.orderID = customers.order_id
 WHERE Feb.Quantity > 2
 AND length(Feb.orderID) = 6
@@ -52,3 +52,41 @@ SELECT Product, SUM(Quantity)
 FROM BIT_DB.FebSales
 WHERE location LIKE "%Los Angeles%"
 GROUP BY Product;
+
+#Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+SELECT location, COUNT(orderID) AS orders
+FROM BIT_DB.JanSales
+WHERE location LIKE "%NY%"
+AND length(orderid) = 6
+AND orderid <> "Order ID"
+GROUP BY location
+HAVING orders >= 3;
+
+#How many of each type of headphone were sold in February?
+SELECT Product, SUM(Quantity)
+FROM BIT_DB.FebSales
+WHERE Product LIKE "%Headphone%"
+GROUP BY Product;
+
+#What was the average amount spent per account in February?
+SELECT (SUM(Feb.Quantity * Feb.price)) / (COUNT(customers.acctnum))
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers
+ON Feb.orderID = customers.order_id
+WHERE length(Feb.orderID) = 6
+AND Feb.orderID <> "Order ID";
+
+#What was the average quantity of products purchased per account in February?
+SELECT AVG(Feb.Quantity)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers
+ON Feb.orderID = customers.order_id
+WHERE length(Feb.orderID) = 6
+AND Feb.orderID <> "Order ID";
+
+#Which product brought in the most revenue in January and how much revenue did it bring in total?
+SELECT Product, SUM(Quantity * price) AS Revenue
+FROM BIT_DB.JanSales
+GROUP BY Product
+ORDER BY Revenue desc
+LIMIT 1;
