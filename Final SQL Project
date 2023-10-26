@@ -1,4 +1,4 @@
-#In this project, I query a digital media store's database that contains multiple tables to quantify statistics about customer, invoice, employee, and product data.
+#In this project, I query a digital media store's database that contains multiple tables quantifying statistics about customer, invoice, employee, and product data.
 
 #1. Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
 SELECT FirstName, LastName, CustomerId, Country
